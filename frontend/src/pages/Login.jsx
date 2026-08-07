@@ -69,6 +69,79 @@ export default function Login() {
 
   return (
     <div className="auth-page">
+
+      {/* Background illustration */}
+      <svg className="auth-deco" viewBox="0 0 1200 750" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        {/* Card: top-left */}
+        <g transform="translate(60,40) rotate(-6)">
+          <rect width="160" height="120" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
+          <rect x="0" y="0" width="160" height="26" rx="8" fill="rgba(99,102,241,0.15)"/>
+          <rect x="14" y="42" width="132" height="2" rx="1" fill="rgba(255,255,255,0.1)"/>
+          <rect x="14" y="58" width="100" height="2" rx="1" fill="rgba(255,255,255,0.08)"/>
+          <rect x="14" y="74" width="120" height="2" rx="1" fill="rgba(255,255,255,0.08)"/>
+          <rect x="14" y="90" width="80" height="2" rx="1" fill="rgba(255,255,255,0.08)"/>
+        </g>
+
+        {/* Card: top-right */}
+        <g transform="translate(950,30) rotate(7)">
+          <rect width="180" height="130" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
+          <rect x="0" y="0" width="180" height="26" rx="8" fill="rgba(139,92,246,0.18)"/>
+          <rect x="14" y="44" width="152" height="2" rx="1" fill="rgba(255,255,255,0.1)"/>
+          <rect x="14" y="60" width="110" height="2" rx="1" fill="rgba(255,255,255,0.08)"/>
+          <rect x="14" y="76" width="140" height="2" rx="1" fill="rgba(255,255,255,0.08)"/>
+          <rect x="14" y="92" width="90" height="2" rx="1" fill="rgba(255,255,255,0.08)"/>
+          <rect x="14" y="108" width="120" height="2" rx="1" fill="rgba(255,255,255,0.06)"/>
+        </g>
+
+        {/* Card: left-middle */}
+        <g transform="translate(30,330) rotate(5)">
+          <rect width="140" height="100" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+          <rect x="14" y="18" width="112" height="2" rx="1" fill="rgba(255,255,255,0.09)"/>
+          <rect x="14" y="34" width="85" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+          <rect x="14" y="50" width="100" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+          <rect x="14" y="66" width="70" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+        </g>
+
+        {/* Card: right-middle (larger, more prominent) */}
+        <g transform="translate(960,280) rotate(-5)">
+          <rect width="200" height="150" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)" strokeWidth="1"/>
+          <rect x="0" y="0" width="200" height="26" rx="8" fill="rgba(79,70,229,0.2)"/>
+          <rect x="16" y="44" width="168" height="2" rx="1" fill="rgba(255,255,255,0.12)"/>
+          <rect x="16" y="60" width="130" height="2" rx="1" fill="rgba(255,255,255,0.09)"/>
+          <rect x="16" y="76" width="155" height="2" rx="1" fill="rgba(255,255,255,0.09)"/>
+          <rect x="16" y="92" width="100" height="2" rx="1" fill="rgba(255,255,255,0.09)"/>
+          <rect x="16" y="108" width="140" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+          <rect x="16" y="124" width="110" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+        </g>
+
+        {/* Card: bottom-left */}
+        <g transform="translate(80,580) rotate(-4)">
+          <rect width="150" height="110" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+          <rect x="0" y="0" width="150" height="26" rx="8" fill="rgba(139,92,246,0.12)"/>
+          <rect x="14" y="44" width="122" height="2" rx="1" fill="rgba(255,255,255,0.09)"/>
+          <rect x="14" y="60" width="90" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+          <rect x="14" y="76" width="110" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+          <rect x="14" y="92" width="70" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+        </g>
+
+        {/* Card: bottom-right */}
+        <g transform="translate(1000,580) rotate(6)">
+          <rect width="130" height="95" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.09)" strokeWidth="1"/>
+          <rect x="12" y="16" width="106" height="2" rx="1" fill="rgba(255,255,255,0.08)"/>
+          <rect x="12" y="32" width="80" height="2" rx="1" fill="rgba(255,255,255,0.06)"/>
+          <rect x="12" y="48" width="95" height="2" rx="1" fill="rgba(255,255,255,0.06)"/>
+          <rect x="12" y="64" width="60" height="2" rx="1" fill="rgba(255,255,255,0.06)"/>
+        </g>
+
+        {/* Tiny floating dots */}
+        <circle cx="220" cy="200" r="2" fill="rgba(255,255,255,0.12)"/>
+        <circle cx="980" cy="200" r="2" fill="rgba(255,255,255,0.1)"/>
+        <circle cx="150" cy="500" r="1.5" fill="rgba(255,255,255,0.1)"/>
+        <circle cx="1050" cy="480" r="2.5" fill="rgba(167,139,250,0.2)"/>
+        <circle cx="600" cy="80" r="2" fill="rgba(255,255,255,0.08)"/>
+        <circle cx="600" cy="680" r="2" fill="rgba(255,255,255,0.08)"/>
+      </svg>
+
       <div className="auth-card">
 
         {/* Logo */}
