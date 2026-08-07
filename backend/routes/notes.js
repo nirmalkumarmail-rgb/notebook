@@ -8,22 +8,24 @@ router.use(auth);
 const parse = (row) =>
   row ? { ...row, tags: JSON.parse(row.tags || '[]') } : null;
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const rows = db
-      .prepare('SELECT * FROM notes WHERE user_id = ? ORDER BY updated_at DESC')
-      .all(req.user.id);
+    const rows = await db.all(
+      'SELECT * FROM notes WHERE user_id = ? ORDER BY updated_at DESC',
+      req.user.id
+    );
     res.json(rows.map(parse));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const row = db
-      .prepare('SELECT * FROM notes WHERE id = ? AND user_id = ?')
-      .get(req.params.id, req.user.id);
+    const row = await db.get(
+      'SELECT * FROM notes WHERE id = ? AND user_id = ?',
+      req.params.id, req.user.id
+    );
     if (!row) return res.status(404).json({ error: 'Not found' });
     res.json(parse(row));
   } catch (err) {
@@ -31,29 +33,32 @@ router.get('/:id', (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { title = '', content = '', tags = [] } = req.body;
-    const { lastInsertRowid } = db
-      .prepare('INSERT INTO notes (user_id, title, content, tags) VALUES (?, ?, ?, ?)')
-      .run(req.user.id, title, content, JSON.stringify(tags));
-    const row = db.prepare('SELECT * FROM notes WHERE id = ?').get(lastInsertRowid);
+    const { lastInsertRowid } = await db.run(
+      'INSERT INTO notes (user_id, title, content, tags) VALUES (?, ?, ?, ?)',
+      req.user.id, title, content, JSON.stringify(tags)
+    );
+    const row = await db.get('SELECT * FROM notes WHERE id = ?', lastInsertRowid);
     res.status(201).json(parse(row));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const { title = '', content = '', tags = [] } = req.body;
-    db.prepare(
-      `UPDATE notes SET title = ?, content = ?, tags = ?,
-       updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
-       WHERE id = ? AND user_id = ?`
-    ).run(title, content, JSON.stringify(tags), req.params.id, req.user.id);
-    const row = db.prepare('SELECT * FROM notes WHERE id = ? AND user_id = ?')
-      .get(req.params.id, req.user.id);
+    const now = new Date().toISOString();
+    await db.run(
+      'UPDATE notes SET title = ?, content = ?, tags = ?, updated_at = ? WHERE id = ? AND user_id = ?',
+      title, content, JSON.stringify(tags), now, req.params.id, req.user.id
+    );
+    const row = await db.get(
+      'SELECT * FROM notes WHERE id = ? AND user_id = ?',
+      req.params.id, req.user.id
+    );
     if (!row) return res.status(404).json({ error: 'Not found' });
     res.json(parse(row));
   } catch (err) {
@@ -61,10 +66,12 @@ router.put('/:id', (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    db.prepare('DELETE FROM notes WHERE id = ? AND user_id = ?')
-      .run(req.params.id, req.user.id);
+    await db.run(
+      'DELETE FROM notes WHERE id = ? AND user_id = ?',
+      req.params.id, req.user.id
+    );
     res.json({});
   } catch (err) {
     res.status(500).json({ error: err.message });

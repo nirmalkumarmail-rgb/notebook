@@ -1,4 +1,6 @@
-const BASE = '/api';
+const BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : '/api';
 
 function token() {
   return localStorage.getItem('nb_token') || sessionStorage.getItem('nb_token') || '';
