@@ -1,57 +1,74 @@
-/* ── Split layout ────────────────────────── */
+/* Override body bg on login page only */
+body:has(.auth-page) {
+  background: transparent;
+  overflow: auto;
+}
+
+/* ── Full-screen split layout ─────────────── */
 .auth-page {
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  position: relative;
+  overflow: hidden;
+  /* Gradient covers the ENTIRE screen */
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px),
+    linear-gradient(145deg, #0f0c29 0%, #1a1550 35%, #2d2860 65%, #1e1a4a 100%);
+  background-size: 28px 28px, cover;
 }
 
-.auth-hero,
-.auth-right {
-  min-height: 100vh;
+/* Large decorative circles on the full background */
+.auth-page::before {
+  content: '';
+  position: absolute;
+  width: 560px;
+  height: 560px;
+  top: -160px;
+  left: -100px;
+  border-radius: 50%;
+  background: rgba(79, 70, 229, 0.22);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auth-page::after {
+  content: '';
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  bottom: -120px;
+  left: 120px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.15);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Third decorative circle — right side */
+.auth-circle-right {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  top: -80px;
+  right: -80px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.16);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Left hero panel ─────────────────────── */
 .auth-hero {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 60px 52px;
-  background:
-    radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px),
-    linear-gradient(145deg, #0f0c29 0%, #1e1654 40%, #302b63 70%, #24243e 100%);
-  background-size: 28px 28px, cover;
-}
-
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.hero-orb-a {
-  width: 420px;
-  height: 420px;
-  top: -120px;
-  left: -120px;
-  background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 65%);
-  animation: heroFloat 11s ease-in-out infinite;
-}
-
-.hero-orb-b {
-  width: 340px;
-  height: 340px;
-  bottom: -100px;
-  right: -80px;
-  background: radial-gradient(circle, rgba(139,92,246,0.25) 0%, transparent 65%);
-  animation: heroFloat 14s ease-in-out infinite reverse;
-}
-
-@keyframes heroFloat {
-  0%, 100% { transform: translate(0, 0); }
-  50%       { transform: translate(20px, -24px); }
+  background: transparent;
+  z-index: 1;
+  min-height: 100vh;
 }
 
 .hero-body {
@@ -68,31 +85,31 @@
 }
 
 .hero-brand svg {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   color: #a5b4fc;
   flex-shrink: 0;
 }
 
 .hero-brand span {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.02em;
 }
 
 .hero-headline {
-  font-size: 42px;
+  font-size: 46px;
   font-weight: 800;
   color: #fff;
-  line-height: 1.15;
+  line-height: 1.12;
   letter-spacing: -0.04em;
   margin-bottom: 18px;
 }
 
 .hero-sub {
   font-size: 15px;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.52);
   line-height: 1.7;
   margin-bottom: 44px;
 }
@@ -109,7 +126,7 @@
   align-items: center;
   gap: 12px;
   font-size: 14px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.68);
   font-weight: 450;
 }
 
@@ -117,8 +134,8 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(99,102,241,0.3);
-  border: 1px solid rgba(165,180,252,0.4);
+  background: rgba(99,102,241,0.28);
+  border: 1px solid rgba(165,180,252,0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,25 +150,30 @@
 
 /* ── Right form panel ────────────────────── */
 .auth-right {
-  background: #f7f8fc;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 32px;
+  padding: 40px 48px 40px 16px;
+  z-index: 1;
+  min-height: 100vh;
 }
 
+/* ── Floating form card ──────────────────── */
 .auth-card {
   background: #fff;
-  border-radius: 16px;
-  border: 1px solid #e8eaf0;
-  padding: 40px 36px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 44px 40px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(255,255,255,0.08);
 }
 
 /* Mobile-only logo — hidden on desktop */
-.auth-logo-mobile {
+.auth-logo.auth-logo-mobile {
   display: none;
 }
 
@@ -306,7 +328,24 @@
 /* ── Loading splash ──────────────────────── */
 .auth-loading {
   min-height: 100vh;
-  background: linear-gradient(145deg, #0f0c29 0%, #302b63 60%, #24243e 100%);
+  background: linear-gradient(145deg, #0f0c29 0%, #2d2860 60%, #1e1a4a 100%);
+}
+
+/* ── Auth logo (mobile card only) ────────── */
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 28px;
+}
+
+.auth-logo svg { width: 26px; height: 26px; color: #4f46e5; flex-shrink: 0; }
+
+.auth-logo span {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.025em;
 }
 
 /* ── Logout button in sidebar ────────────── */
@@ -327,45 +366,28 @@
 
 .btn-logout:hover { background: #fee2e2; color: #dc2626; }
 
-/* ── Auth logo (shared) ──────────────────── */
-.auth-logo {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 28px;
-}
-
-.auth-logo svg { width: 26px; height: 26px; color: #4f46e5; flex-shrink: 0; }
-
-.auth-logo span {
-  font-size: 17px;
-  font-weight: 700;
-  color: #111827;
-  letter-spacing: -0.025em;
-}
-
 /* ── Mobile ──────────────────────────────── */
 @media (max-width: 768px) {
   .auth-page {
     grid-template-columns: 1fr;
-    background:
-      radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px),
-      linear-gradient(145deg, #0f0c29 0%, #302b63 60%, #24243e 100%);
-    background-size: 28px 28px, cover;
     align-items: center;
-    justify-content: center;
+    justify-items: center;
     padding: 24px;
   }
 
   .auth-hero { display: none; }
 
   .auth-right {
-    background: transparent;
     padding: 0;
     width: 100%;
+    min-height: 100vh;
   }
 
-  .auth-logo-mobile { display: flex; }
+  .auth-logo.auth-logo-mobile { display: flex; }
 
-  .auth-card { max-width: 420px; margin: 0 auto; }
+  .auth-card {
+    max-width: 420px;
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
 }

@@ -68,16 +68,20 @@ export default function Login() {
 
   return (
     <div className="auth-page">
+      <div className="auth-circle-right" aria-hidden="true" />
 
       {/* ── Left hero panel ───────────────────── */}
       <div className="auth-hero">
-        <div className="hero-orb hero-orb-a" />
-        <div className="hero-orb hero-orb-b" />
 
         <div className="hero-body">
           <div className="hero-brand">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z" />
+              <rect x="3" y="3" width="13" height="17" rx="2"/>
+              <line x1="6" y1="8" x2="13" y2="8"/>
+              <line x1="6" y1="12" x2="11" y2="12"/>
+              <line x1="6" y1="16" x2="12" y2="16"/>
+              <path d="M15 7l5-5 2 2-5 5z"/>
+              <line x1="15" y1="7" x2="13" y2="9"/>
             </svg>
             <span>Notebook</span>
           </div>
@@ -123,7 +127,12 @@ export default function Login() {
           {/* Mobile-only logo */}
           <div className="auth-logo auth-logo-mobile">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z" />
+              <rect x="3" y="3" width="13" height="17" rx="2"/>
+              <line x1="6" y1="8" x2="13" y2="8"/>
+              <line x1="6" y1="12" x2="11" y2="12"/>
+              <line x1="6" y1="16" x2="12" y2="16"/>
+              <path d="M15 7l5-5 2 2-5 5z"/>
+              <line x1="15" y1="7" x2="13" y2="9"/>
             </svg>
             <span>Notebook</span>
           </div>
