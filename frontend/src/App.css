@@ -349,23 +349,53 @@ body {
   margin-bottom: 24px;
 }
 
-.content-textarea {
+/* ── Tiptap rich editor ──────────────────── */
+.rich-editor {
   font-size: 15px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--text);
-  width: 100%;
-  resize: none;
-  min-height: 240px;
   line-height: 1.75;
-  font-family: inherit;
-  padding: 0;
-  overflow: hidden;
+  color: var(--text);
+  min-height: 240px;
+  outline: none;
+  width: 100%;
 }
 
-.content-textarea::placeholder {
+.rich-editor p { margin: 0 0 12px; }
+.rich-editor p:last-child { margin-bottom: 0; }
+.rich-editor h1 { font-size: 26px; font-weight: 700; margin: 0 0 14px; letter-spacing: -0.02em; line-height: 1.25; }
+.rich-editor h2 { font-size: 20px; font-weight: 700; margin: 24px 0 10px; letter-spacing: -0.01em; }
+.rich-editor h3 { font-size: 16px; font-weight: 600; margin: 18px 0 8px; }
+.rich-editor ul, .rich-editor ol { padding-left: 22px; margin: 0 0 12px; }
+.rich-editor li { margin-bottom: 4px; }
+.rich-editor li p { margin: 0; }
+.rich-editor strong { font-weight: 700; }
+.rich-editor em { font-style: italic; }
+.rich-editor code {
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 13px;
+  background: var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.rich-editor pre {
+  background: var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.rich-editor pre code { background: none; padding: 0; }
+.rich-editor blockquote {
+  border-left: 3px solid var(--accent);
+  margin: 0 0 12px;
+  padding: 2px 0 2px 16px;
+  color: var(--text-muted);
+}
+.rich-editor p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
   color: #d1d5db;
+  pointer-events: none;
+  float: left;
+  height: 0;
 }
 
 /* Word / char count footer */
@@ -581,6 +611,7 @@ body {
 }
 
 .fmt-btn:hover { background: var(--border); color: var(--text); }
+.fmt-active { background: var(--selected-bg) !important; color: var(--accent) !important; }
 .fmt-italic { font-style: italic; }
 .fmt-code { font-family: monospace; font-size: 11px; }
 

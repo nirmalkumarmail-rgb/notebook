@@ -32,7 +32,9 @@ export default function NoteCard({ note, selected, onSelect, onDelete }) {
       </div>
 
       {note.content && (
-        <div className="note-card-preview">{note.content}</div>
+        <div className="note-card-preview">
+          {note.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()}
+        </div>
       )}
 
       <div className="note-card-footer">
