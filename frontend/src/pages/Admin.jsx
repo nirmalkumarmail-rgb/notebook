@@ -59,6 +59,27 @@ export default function Admin() {
               <StatCard label="Total Notes" value={stats.notes.total} />
             </div>
 
+            {stats.users.list?.length > 0 && (
+              <div className="admin-section">
+                <h2 className="admin-subheading">All users</h2>
+                <table className="admin-table">
+                  <thead>
+                    <tr><th>#</th><th>Email</th><th>Joined</th><th>Notes</th></tr>
+                  </thead>
+                  <tbody>
+                    {stats.users.list.map((u, i) => (
+                      <tr key={u.id}>
+                        <td>{i + 1}</td>
+                        <td>{u.email}</td>
+                        <td>{u.joined}</td>
+                        <td>{u.notes}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
             {stats.users.perDay.length > 0 && (
               <div className="admin-section">
                 <h2 className="admin-subheading">New signups — last 30 days</h2>
