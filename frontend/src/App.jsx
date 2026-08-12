@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
+import Admin from './pages/Admin';
 import Sidebar from './components/Sidebar';
 import NoteEditor from './components/NoteEditor';
 import * as api from './api';
@@ -187,6 +188,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<ProtectedRoute />} />
         </Routes>
       </BrowserRouter>
