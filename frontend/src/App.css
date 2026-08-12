@@ -641,6 +641,22 @@ body {
 
 .preview-empty { color: var(--text-muted); font-style: italic; }
 
+/* ── Live preview panel ──────────────────── */
+.live-preview {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.live-preview-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 16px;
+}
+
 /* ── Pin icon in note card ───────────────── */
 .pin-icon {
   color: #f59e0b;
