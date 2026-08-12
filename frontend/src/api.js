@@ -85,6 +85,16 @@ export async function updateNote(id, data) {
   return res.json();
 }
 
+export async function pinNote(id, pinned) {
+  const res = await fetch(`${BASE}/notes/${id}/pin`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+    body: JSON.stringify({ pinned }),
+  });
+  if (!res.ok) throw new Error('Failed to pin note');
+  return res.json();
+}
+
 export async function deleteNote(id) {
   const res = await fetch(`${BASE}/notes/${id}`, {
     method: 'DELETE',

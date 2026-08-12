@@ -21,7 +21,14 @@ export default function NoteCard({ note, selected, onSelect, onDelete }) {
   return (
     <div className={`note-card${selected ? ' selected' : ''}`} onClick={onSelect}>
       <div className="note-card-header">
-        <div className="note-card-title">{note.title || 'Untitled'}</div>
+        <div className="note-card-title">
+          {note.pinned && (
+            <svg className="pin-icon" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+              <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z M12 17v5"/>
+            </svg>
+          )}
+          {note.title || 'Untitled'}
+        </div>
       </div>
 
       {note.content && (

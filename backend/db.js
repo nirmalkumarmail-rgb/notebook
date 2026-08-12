@@ -28,6 +28,7 @@ if (process.env.DATABASE_URL) {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
+    ALTER TABLE notes ADD COLUMN IF NOT EXISTS pinned BOOLEAN NOT NULL DEFAULT FALSE;
   `).catch(console.error);
 
   module.exports = {
@@ -77,6 +78,11 @@ if (process.env.DATABASE_URL) {
       updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
     );
   `);
+
+  const colNames = db.prepare('PRAGMA table_info(notes)').all().map((c) => c.name);
+  if (!colNames.includes('pinned')) {
+    db.exec('ALTER TABLE notes ADD COLUMN pinned INTEGER NOT NULL DEFAULT 0');
+  }
 
   module.exports = {
     async get(sql, ...params) { return db.prepare(sql).get(...params) ?? null; },

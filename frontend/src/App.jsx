@@ -98,6 +98,17 @@ function NotesApp() {
     finally { setIsCreating(false); }
   };
 
+  const handlePin = async (id, pinned) => {
+    try {
+      const updated = await api.pinNote(id, pinned);
+      setNotes((prev) =>
+        prev
+          .map((n) => (n.id === id ? { ...n, pinned: updated.pinned } : n))
+          .sort((a, b) => (b.pinned - a.pinned) || (new Date(b.updated_at) - new Date(a.updated_at)))
+      );
+    } catch (err) { console.error(err); }
+  };
+
   const handleDelete = async (id) => {
     clearTimeout(saveTimers.current[id]);
     delete saveTimers.current[id];
@@ -148,6 +159,7 @@ function NotesApp() {
             note={selectedNote}
             onChange={(changes) => handleChange(selectedNote.id, changes)}
             onBack={() => setIsMobileEditor(false)}
+            onPin={handlePin}
             saveStatus={saveStatus}
           />
         ) : (

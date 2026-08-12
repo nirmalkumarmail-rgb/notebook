@@ -6,12 +6,12 @@ const auth = require('../middleware/auth');
 router.use(auth);
 
 const parse = (row) =>
-  row ? { ...row, tags: JSON.parse(row.tags || '[]') } : null;
+  row ? { ...row, tags: JSON.parse(row.tags || '[]'), pinned: !!row.pinned } : null;
 
 router.get('/', async (req, res) => {
   try {
     const rows = await db.all(
-      'SELECT * FROM notes WHERE user_id = ? ORDER BY updated_at DESC',
+      'SELECT * FROM notes WHERE user_id = ? ORDER BY pinned DESC, updated_at DESC',
       req.user.id
     );
     res.json(rows.map(parse));
@@ -54,6 +54,24 @@ router.put('/:id', async (req, res) => {
     await db.run(
       'UPDATE notes SET title = ?, content = ?, tags = ?, updated_at = ? WHERE id = ? AND user_id = ?',
       title, content, JSON.stringify(tags), now, req.params.id, req.user.id
+    );
+    const row = await db.get(
+      'SELECT * FROM notes WHERE id = ? AND user_id = ?',
+      req.params.id, req.user.id
+    );
+    if (!row) return res.status(404).json({ error: 'Not found' });
+    res.json(parse(row));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.patch('/:id/pin', async (req, res) => {
+  try {
+    const pinned = req.body.pinned ? 1 : 0;
+    await db.run(
+      'UPDATE notes SET pinned = ? WHERE id = ? AND user_id = ?',
+      pinned, req.params.id, req.user.id
     );
     const row = await db.get(
       'SELECT * FROM notes WHERE id = ? AND user_id = ?',
