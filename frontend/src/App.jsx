@@ -23,6 +23,7 @@ function NotesApp() {
   const [notes, setNotes] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState(null);
   const [isMobileEditor, setIsMobileEditor] = useState(false);
   const [saveStatus, setSaveStatus] = useState('saved');
   const [isCreating, setIsCreating] = useState(false);
@@ -42,16 +43,18 @@ function NotesApp() {
   }, []);
   useEffect(() => { loadNotes(); }, [loadNotes]);
 
-  const filteredNotes = searchQuery.trim()
-    ? notes.filter((n) => {
-        const q = searchQuery.toLowerCase();
-        return (
-          n.title.toLowerCase().includes(q) ||
-          n.content.toLowerCase().includes(q) ||
-          n.tags?.some((t) => t.toLowerCase().includes(q))
-        );
-      })
-    : notes;
+  const allTags = [...new Set(notes.flatMap((n) => n.tags ?? []))].sort();
+
+  const filteredNotes = notes.filter((n) => {
+    if (selectedTag && !n.tags?.includes(selectedTag)) return false;
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      n.title.toLowerCase().includes(q) ||
+      n.content.toLowerCase().includes(q) ||
+      n.tags?.some((t) => t.toLowerCase().includes(q))
+    );
+  });
 
   const selectedNote = notes.find((n) => n.id === selectedId) ?? null;
 
@@ -151,6 +154,9 @@ function NotesApp() {
         onToggleTheme={toggleTheme}
         isMobileEditor={isMobileEditor}
         isCreating={isCreating}
+        allTags={allTags}
+        selectedTag={selectedTag}
+        onSelectTag={setSelectedTag}
       />
       <main className={`editor-pane${isMobileEditor ? ' mobile-active' : ''}`}>
         {selectedNote ? (

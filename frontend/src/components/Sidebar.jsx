@@ -12,6 +12,9 @@ export default function Sidebar({
   theme,
   onToggleTheme,
   isMobileEditor,
+  allTags,
+  selectedTag,
+  onSelectTag,
 }) {
   return (
     <aside className={`sidebar${isMobileEditor ? ' mobile-hidden' : ''}`}>
@@ -56,10 +59,25 @@ export default function Sidebar({
         />
       </div>
 
+      {allTags.length > 0 && (
+        <div className="tag-filter-bar">
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              className={`tag-filter-pill${selectedTag === tag ? ' active' : ''}`}
+              onClick={() => onSelectTag(selectedTag === tag ? null : tag)}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="notes-list">
-        {searchQuery && (
+        {(searchQuery || selectedTag) && (
           <div className="notes-count">
             {notes.length} result{notes.length !== 1 ? 's' : ''}
+            {selectedTag && <span className="notes-count-tag"> in #{selectedTag}</span>}
           </div>
         )}
         {notes.length === 0 ? (
