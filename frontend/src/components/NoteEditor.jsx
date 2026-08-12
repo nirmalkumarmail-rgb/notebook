@@ -1,15 +1,48 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Color } from '@tiptap/extension-color';
+import { Highlight } from '@tiptap/extension-highlight';
+
+const TEXT_COLORS = [
+  { label: 'Default', value: null },
+  { label: 'Red', value: '#ef4444' },
+  { label: 'Orange', value: '#f97316' },
+  { label: 'Yellow', value: '#eab308' },
+  { label: 'Green', value: '#22c55e' },
+  { label: 'Blue', value: '#3b82f6' },
+  { label: 'Purple', value: '#a855f7' },
+  { label: 'Pink', value: '#ec4899' },
+  { label: 'Gray', value: '#6b7280' },
+];
+
+const HIGHLIGHT_COLORS = [
+  { label: 'None', value: null },
+  { label: 'Yellow', value: '#fef08a' },
+  { label: 'Green', value: '#bbf7d0' },
+  { label: 'Blue', value: '#bfdbfe' },
+  { label: 'Pink', value: '#fbcfe8' },
+  { label: 'Orange', value: '#fed7aa' },
+  { label: 'Purple', value: '#e9d5ff' },
+];
 
 export default function NoteEditor({ note, onChange, onBack, onPin, saveStatus }) {
   const [tagInput, setTagInput] = useState('');
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showHighlightPicker, setShowHighlightPicker] = useState(false);
+  const colorBtnRef = useRef(null);
+  const highlightBtnRef = useRef(null);
+  const savedSelection = useRef(null);
 
   const editor = useEditor({
     extensions: [
       StarterKit,
       Placeholder.configure({ placeholder: 'Start writing…' }),
+      TextStyle,
+      Color,
+      Highlight.configure({ multicolor: true }),
     ],
     content: note.content || '',
     onUpdate: ({ editor }) => {
@@ -82,6 +115,86 @@ export default function NoteEditor({ note, onChange, onBack, onPin, saveStatus }
           <button className={`fmt-btn fmt-code${isActive('code') ? ' fmt-active' : ''}`} title="Inline code" onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleCode().run(); }}>
             {'</>'}
           </button>
+
+          <div className="fmt-separator" />
+
+          {/* Text color picker */}
+          <div className="color-picker-wrap" ref={colorBtnRef}>
+            <button
+              className={`fmt-btn color-btn${showColorPicker ? ' fmt-active' : ''}`}
+              title="Text color"
+              onMouseDown={(e) => { e.preventDefault(); savedSelection.current = editor.state.selection; setShowColorPicker((v) => !v); setShowHighlightPicker(false); }}
+            >
+              <span className="color-btn-inner">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                  <text x="2" y="18" fontSize="20" fontWeight="bold" fontFamily="serif">A</text>
+                </svg>
+                <span className="color-swatch" style={{ background: editor?.getAttributes('textStyle').color || 'currentColor' }} />
+              </span>
+            </button>
+            {showColorPicker && (
+              <div className="color-dropdown">
+                <div className="color-dropdown-label">Text color</div>
+                <div className="color-swatches">
+                  {TEXT_COLORS.map((c) => (
+                    <button
+                      key={c.label}
+                      className="color-swatch-btn"
+                      title={c.label}
+                      style={{ background: c.value || 'transparent', border: c.value ? 'none' : '1.5px dashed var(--border)' }}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        if (savedSelection.current) editor.view.dispatch(editor.state.tr.setSelection(savedSelection.current));
+                        if (c.value) editor.chain().focus().setColor(c.value).run();
+                        else editor.chain().focus().unsetColor().run();
+                        setShowColorPicker(false);
+                        savedSelection.current = null;
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Highlight (bg color) picker */}
+          <div className="color-picker-wrap" ref={highlightBtnRef}>
+            <button
+              className={`fmt-btn color-btn${showHighlightPicker ? ' fmt-active' : ''}`}
+              title="Highlight color"
+              onMouseDown={(e) => { e.preventDefault(); savedSelection.current = editor.state.selection; setShowHighlightPicker((v) => !v); setShowColorPicker(false); }}
+            >
+              <span className="color-btn-inner">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 11l-6 6v3h3l6-6"/><path d="M22 2l-3-1-9 9 4 4 9-9z"/>
+                </svg>
+                <span className="color-swatch" style={{ background: editor?.isActive('highlight') ? (editor?.getAttributes('highlight').color || '#fef08a') : 'transparent', border: editor?.isActive('highlight') ? 'none' : '1.5px dashed var(--border)' }} />
+              </span>
+            </button>
+            {showHighlightPicker && (
+              <div className="color-dropdown">
+                <div className="color-dropdown-label">Highlight</div>
+                <div className="color-swatches">
+                  {HIGHLIGHT_COLORS.map((c) => (
+                    <button
+                      key={c.label}
+                      className="color-swatch-btn"
+                      title={c.label}
+                      style={{ background: c.value || 'transparent', border: c.value ? 'none' : '1.5px dashed var(--border)' }}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        if (savedSelection.current) editor.view.dispatch(editor.state.tr.setSelection(savedSelection.current));
+                        if (c.value) editor.chain().focus().setHighlight({ color: c.value }).run();
+                        else editor.chain().focus().unsetHighlight().run();
+                        setShowHighlightPicker(false);
+                        savedSelection.current = null;
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="toolbar-spacer" />
