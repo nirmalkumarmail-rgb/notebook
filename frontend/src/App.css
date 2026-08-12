@@ -230,43 +230,51 @@ body {
   flex-shrink: 0;
 }
 
-/* ── Tag filter bar ──────────────────────── */
-.tag-filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  padding: 8px 12px 4px;
-  border-bottom: 1px solid var(--border);
-}
-
-.tag-filter-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 9px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 500;
-  background: var(--tag-bg);
-  color: var(--tag-color);
-  border: 1.5px solid transparent;
+/* ── Clickable tag (note card) ───────────── */
+.tag-clickable {
   cursor: pointer;
-  transition: background 0.12s, border-color 0.12s, color 0.12s;
-  white-space: nowrap;
+  transition: background 0.12s, color 0.12s;
 }
-
-.tag-filter-pill:hover {
-  border-color: var(--accent);
-}
-
-.tag-filter-pill.active {
+.tag-clickable:hover {
   background: var(--accent);
   color: #fff;
-  border-color: var(--accent);
 }
 
-.notes-count-tag {
-  color: var(--accent);
+/* ── Active tag filter strip ─────────────── */
+.active-tag-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--selected-bg);
+  border-bottom: 1px solid var(--selected-border);
+}
+
+.active-tag-filter-label {
+  font-size: 11px;
   font-weight: 600;
+  color: var(--accent);
+  flex: 1;
+}
+
+.active-tag-filter-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.1s, color 0.1s;
+  flex-shrink: 0;
+}
+
+.active-tag-filter-clear:hover {
+  background: var(--border);
+  color: var(--text);
 }
 
 .card-delete-btn {

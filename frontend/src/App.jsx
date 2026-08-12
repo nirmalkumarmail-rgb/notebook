@@ -154,7 +154,6 @@ function NotesApp() {
         onToggleTheme={toggleTheme}
         isMobileEditor={isMobileEditor}
         isCreating={isCreating}
-        allTags={allTags}
         selectedTag={selectedTag}
         onSelectTag={setSelectedTag}
       />

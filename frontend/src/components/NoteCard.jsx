@@ -12,7 +12,7 @@ function formatDate(iso) {
   return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-export default function NoteCard({ note, selected, onSelect, onDelete }) {
+export default function NoteCard({ note, selected, onSelect, onDelete, onTagClick }) {
   const handleDelete = (e) => {
     e.stopPropagation();
     if (window.confirm('Delete this note?')) onDelete();
@@ -40,7 +40,11 @@ export default function NoteCard({ note, selected, onSelect, onDelete }) {
       <div className="note-card-footer">
         <div className="note-card-tags">
           {note.tags?.slice(0, 3).map((t) => (
-            <span key={t} className="tag">{t}</span>
+            <span
+              key={t}
+              className="tag tag-clickable"
+              onClick={(e) => { e.stopPropagation(); onTagClick?.(t); }}
+            >{t}</span>
           ))}
         </div>
         <span className="note-card-date">{formatDate(note.updated_at)}</span>

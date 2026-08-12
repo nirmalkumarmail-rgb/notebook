@@ -12,7 +12,6 @@ export default function Sidebar({
   theme,
   onToggleTheme,
   isMobileEditor,
-  allTags,
   selectedTag,
   onSelectTag,
 }) {
@@ -59,30 +58,24 @@ export default function Sidebar({
         />
       </div>
 
-      {allTags.length > 0 && (
-        <div className="tag-filter-bar">
-          {allTags.map((tag) => (
-            <button
-              key={tag}
-              className={`tag-filter-pill${selectedTag === tag ? ' active' : ''}`}
-              onClick={() => onSelectTag(selectedTag === tag ? null : tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      )}
-
       <div className="notes-list">
-        {(searchQuery || selectedTag) && (
-          <div className="notes-count">
-            {notes.length} result{notes.length !== 1 ? 's' : ''}
-            {selectedTag && <span className="notes-count-tag"> in #{selectedTag}</span>}
+        {selectedTag && (
+          <div className="active-tag-filter">
+            <span className="active-tag-filter-label">#{selectedTag}</span>
+            <button className="active-tag-filter-clear" onClick={() => onSelectTag(null)} title="Clear filter">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            </button>
           </div>
         )}
         {notes.length === 0 ? (
           <div className="notes-empty">
-            {searchQuery ? 'No notes match your search.' : 'No notes yet. Create one to get started.'}
+            {selectedTag
+              ? `No notes tagged "${selectedTag}".`
+              : searchQuery
+              ? 'No notes match your search.'
+              : 'No notes yet. Create one to get started.'}
           </div>
         ) : (
           notes.map((note) => (
@@ -92,6 +85,7 @@ export default function Sidebar({
               selected={note.id === selectedId}
               onSelect={() => onSelect(note.id)}
               onDelete={() => onDelete(note.id)}
+              onTagClick={onSelectTag}
             />
           ))
         )}
