@@ -149,10 +149,10 @@ body {
 /* ── NoteCard ─────────────────────────────── */
 .note-card {
   padding: 11px 12px;
-  border-radius: var(--radius);
+  border-radius: 0;
   cursor: pointer;
-  border: 1px solid transparent;
-  margin-bottom: 2px;
+  border: none;
+  border-bottom: 1px solid var(--border);
   position: relative;
   transition: background 0.1s;
 }
